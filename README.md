@@ -1,10 +1,9 @@
-meteor-inspector
-================
+# meteor-inspector
 
 By default [meteor](http://www.meteor.com/) restarts each time a file has changed. If you are using [node-inspector](https://github.com/node-inspector/node-inspector) for debugging your meteor application you always have to restart the inspector manually to keep the UI connected to the debugger. With  meteor-inspector installed (using [meteorite](https://github.com/oortcloud/meteorite)) and invoked during the server startup, the node-inspector's lifecycle is managed in the background.
 
-Prerequisites
--------------
+## Prerequisites
+
 You need to install node-inspector and meteorite globally (if not done yet):
 ``` sh
 $ npm install -g node-inspector
@@ -13,10 +12,11 @@ $ npm install -g meteorite
 
 
 
-Usage
------
+## Usage
+
 To use meteor-inspector in your project, you first have to install it in the project's directory:
 ``` sh
+$ cd /path/to/your/project
 $ mrt add inspector
 ```
 
