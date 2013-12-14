@@ -1,17 +1,41 @@
+var cp = Meteor.require('child_process');
+
+var defaultSettings = {
+    // restart delay of node-inspector in milliseconds
+    delay: 1000,
+
+    // function which is responsible for killing the given (running) node-inspector process
+    kill: function (inspectorProcess) {
+        // calling inspector.kill() or using the kill system command do not work,
+        // so we've picked the pkill system command
+        cp.exec('pkill -P ' + inspectorProcess.pid);
+    }
+}
+
 Inspector = {
-    runIfDebugging: function (delay) {
+    runIfDebugging: function (settings) {
         var isDebug = process.execArgv[0];
         if (isDebug) {
-            var cp = Meteor.require('child_process');
+            // ensure that settings are initialized properly
+            if (!settings) {
+                settings = defaultSettings;
+            } else {
+                if (!settings.delay || settings.delay < 500) {
+                    settings.delay = defaultSettings.delay;
+                }
+                if (typeof settings.kill !== 'function') {
+                    settings.kill = defaultSettings.kill;
+                }
+            }
+
+            // start node-inspector after the delay specified by given settings
             setTimeout(function() {
                 var inspector = cp.exec('node-inspector');
                 process.on('SIGTERM', function () {
-                    // calling inspector.kill() or using the kill system command do not work,
-                    // so we've picked the pkill system command
-                    cp.exec('pkill -P ' + inspector.pid);
+                    settings.kill(inspector);
                     process.exit(0);
                 });
-            }, delay? delay : 1000);
+            }, settings.delay);
         }
     }
 }
