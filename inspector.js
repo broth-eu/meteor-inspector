@@ -7,7 +7,7 @@ var defaultSettings = {
     // function which is responsible for killing the given (running) node-inspector process
     kill: function (inspectorProcess) {
         // calling inspector.kill() or using the kill system command do not work,
-        // so we've picked the pkill system command
+        // so we've picked the pkill system command instead
         cp.exec('pkill -P ' + inspectorProcess.pid);
     }
 }
