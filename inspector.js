@@ -1,14 +1,16 @@
 var cp = Meteor.require('child_process');
 
 var defaultSettings = {
-    // restart delay of node-inspector in milliseconds
-    delay: 1000,
+    // port of node-inspector's web UI
+    webPort: 8080,
 
-    // function which is responsible for killing the given (running) node-inspector process
+    // restart delay of node-inspector in milliseconds
+    delay: 200,
+
+    // function which is responsible for killing the given (running) node-inspector process.
+    // generally, it should not be necessary to provide an alternative implementation.
     kill: function (inspectorProcess) {
-        // calling inspector.kill() or using the kill system command do not work,
-        // so we've picked the pkill system command instead
-        cp.exec('pkill -P ' + inspectorProcess.pid);
+        inspectorProcess.kill();
     }
 }
 
@@ -20,7 +22,10 @@ Inspector = {
             if (!settings) {
                 settings = defaultSettings;
             } else {
-                if (!settings.delay || settings.delay < 500) {
+                if (typeof settings.webPort !== 'number') {
+                    settings.webPort = defaultSettings.webPort;
+                }
+                if (typeof settings.delay !== 'number' || settings.delay < 1) {
                     settings.delay = defaultSettings.delay;
                 }
                 if (typeof settings.kill !== 'function') {
@@ -30,11 +35,19 @@ Inspector = {
 
             // start node-inspector after the delay specified by given settings
             setTimeout(function() {
-                var inspector = cp.exec('node-inspector');
+                var inspector = cp.spawn('node-inspector', ['--web-port=' + settings.webPort]);
+                inspector.stdout.on('data', function(data) {
+                   console.info('inspector: ' + data);
+                });
+                inspector.stderr.on('data', function(data) {
+                    console.warn('inspector: ' + data);
+                });
+
                 process.on('SIGTERM', function () {
                     settings.kill(inspector);
                     process.exit(0);
                 });
+
             }, settings.delay);
         }
     }
