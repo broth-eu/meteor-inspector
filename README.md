@@ -38,7 +38,7 @@ if (Meteor.isServer) {
 When debugging is enabled you are now able to use node-inspector as long as meteor is running, even after an automatic
 server restart. You are only required to refresh the debugger's website after each restart.
 
-You simply can enable debugging globally with:
+You simply can enable debugging in your current shell with:
 ``` sh
 $ export NODE_OPTIONS='--debug'
 ```
