@@ -3,9 +3,8 @@
     "description": "Ensures that if meteor is in debug mode node-inspector is running",
     "homepage": "https://github.com/broth-eu/meteor-inspector",
     "author": "Bastian Roth",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "git": "https://github.com/broth-eu/meteor-inspector.git",
     "packages": {
-        "npm": {}
     }
 }

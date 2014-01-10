@@ -1,4 +1,4 @@
-var cp = Meteor.require('child_process');
+var cp = Npm.require('child_process');
 
 var defaultSettings = {
     // port of node-inspector's web UI

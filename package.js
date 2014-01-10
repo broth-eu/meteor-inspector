@@ -3,8 +3,6 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
-    api.use(['npm'], 'server');
-
     api.add_files(['inspector.js'], 'server');
 
     if (api.export) {
