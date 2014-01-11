@@ -45,7 +45,7 @@ $ export NODE_OPTIONS='--debug'
 
 To disable it again, do the following:
 ``` sh
-$ export NODE_OPTIONS=''
+$ unset NODE_OPTIONS
 ```
 
 
