@@ -24,7 +24,7 @@ $ cd /path/to/your/project
 $ mrt add inspector
 ```
 
-Furthermore, you have to invoke the inspector's ``runIfDebugging()`` method as first statement in the startup callback
+Furthermore, you have to invoke the inspector's ``runIfDebugging()`` method as first statement in a startup callback
 of your server:
 ``` javascript
 if (Meteor.isServer) {
